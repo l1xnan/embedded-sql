@@ -76,13 +76,16 @@ comment_strs = stmt_str_points - doc_str_points
 print(sorted(comment_strs))
 
 
-string_pattern = """ 
-(
-	(expression_statement (assignment 
-    	(identifier) (string) @stmt_str))
-	(expression_statement (call 
-    	(identifier) (argument_list (string) @stmt_str)))
-)
+string_pattern = """
+[
+(call
+  function: (identifier)
+  arguments: (argument_list (string) @the-string))
+ 
+(assignment
+  left: (identifier)
+  right: (string) @the-string)
+] 
 """
 stmt_str_query = language.query(string_pattern)
 stmt_strs = stmt_str_query.captures(tree.root_node)
